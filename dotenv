@@ -1,0 +1,12 @@
+# Copy to `.env` and fill values. `.env` is gitignored.
+
+# Google AI Studio — use for local `adk web` / `adk run`
+# Create a key: https://aistudio.google.com/apikey — paste it on the line below (no quotes).
+GOOGLE_GENAI_USE_VERTEXAI=FALSE
+GOOGLE_API_KEY=
+
+# Google Cloud Vertex AI — uncomment when you have a real project/region and ADC
+# (see setup.md: gcloud auth application-default login, enable aiplatform.googleapis.com)
+# GOOGLE_GENAI_USE_VERTEXAI=TRUE
+# GOOGLE_CLOUD_PROJECT=your-google-cloud-project-id
+# GOOGLE_CLOUD_LOCATION=us-central1
