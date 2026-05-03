@@ -10,6 +10,12 @@ This repository is a collection of ADK samples/tutorials to get you up to speed.
 > [!CAUTION]
 > Before you start, make sure to follow the [setup](setup.md) page.
 
+## About this repository
+
+This project starts from the **official Google ADK sample material** (the same patterns and agents you see in the [ADK Python](https://github.com/google/adk-python) ecosystem and related demos). On top of that baseline, this fork adds a **FastAPI API gateway** under [`travel_helper_api/`](./travel_helper_api) so you can talk to agents over **HTTP with JSON** (including a streaming endpoint), instead of only CLI or the ADK web UI.
+
+The goal is to bring **software engineering foundations** to an AI agent project: a clearer service layout, explicit API contracts, and a path toward production concerns (sessions, errors, deployment) while keeping the original agent logic intact.
+
 ## Samples
 
 Follow the following sub-pages for samples/tutorials (in order):
