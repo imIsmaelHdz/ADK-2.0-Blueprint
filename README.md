@@ -20,7 +20,7 @@ The goal is to bring **software engineering foundations** to an AI agent project
 
 Follow the following sub-pages for samples/tutorials (in order):
 
-* [Travel Helper Agent](./travel_helper)
+* [Travel Helper Agent](./travel_helper) — optional [assistant response guard](./travel_helper/README.md#optional-assistant-response-guard) (Guardrails) on model replies
 * [Travel Helper Agent Runner](./travel_helper_runner) (depends on the above)
 * [ADK Callbacks Agent](./adk-callbacks-agent/)
 

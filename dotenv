@@ -10,3 +10,7 @@ GOOGLE_API_KEY=
 # GOOGLE_GENAI_USE_VERTEXAI=TRUE
 # GOOGLE_CLOUD_PROJECT=your-google-cloud-project-id
 # GOOGLE_CLOUD_LOCATION=us-central1
+
+# Travel helper — assistant response guard (Guardrails). Off unless set to 1/true/yes/on.
+# TRAVEL_HELPER_GUARDRAILS_ENABLED=1
+# TRAVEL_HELPER_GUARDRAILS_BANNED_TERMS=phrase1,phrase2

@@ -1,0 +1,29 @@
+{
+  "description": "Expected outputs for AssistantResponseGuardService.apply (emoji strip + optional banned terms). Requires guardrails-ai.",
+  "cases": [
+    {
+      "id": "plain_text_unchanged",
+      "input": "SUMMARY\nYou are travelling from Madrid to Lisbon.",
+      "banned_terms": [],
+      "expected": "SUMMARY\nYou are travelling from Madrid to Lisbon."
+    },
+    {
+      "id": "emoji_removed",
+      "input": "Enjoy your trip! ✈️",
+      "banned_terms": [],
+      "expected": "Enjoy your trip!"
+    },
+    {
+      "id": "emoji_and_banned_term",
+      "input": "Great flight ✈️ with secretcode fare",
+      "banned_terms": ["secretcode"],
+      "expected": "Great flight with fare"
+    },
+    {
+      "id": "banned_case_insensitive",
+      "input": "Do not say BADTERM here",
+      "banned_terms": ["badterm"],
+      "expected": "Do not say here"
+    }
+  ]
+}

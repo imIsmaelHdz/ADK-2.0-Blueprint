@@ -1,5 +1,7 @@
 from google.adk.agents import Agent
 from google.adk.tools.agent_tool import AgentTool
+
+from travel_helper.assistant_response_guard import travel_helper_after_model_callback
 from travel_helper.sub_agents.currency.agent import root_agent as currency_agent
 from travel_helper.sub_agents.google_search.agent import root_agent as google_search_agent
 from travel_helper.sub_agents.greeter.agent import root_agent as greeter_agent
@@ -72,6 +74,7 @@ root_agent = Agent(
         AgentTool(agent=weather_agent),
         AgentTool(agent=currency_agent),
         # AgentTool(agent=filesystem_assistant_agent)
-    ]
+    ],
+    after_model_callback=travel_helper_after_model_callback,
     # sub_agents=[greeter_agent, google_search_agent, weather_agent, currency_agent]
 )

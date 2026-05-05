@@ -46,3 +46,32 @@ If you're running the agent locally, you might want to save the travel informati
 Go through [Filesystem Assistant Agent with Model Context Protocol](./sub_agents/filesystem_assistant) to build an agent
 to have access to the file system using a reference MCP server and ADK's MCPToolset.
 
+## Optional assistant response guard
+
+This section describes **Guardrails AI** validation of assistant-facing text. The root agent in [`agent.py`](agent.py) registers an ADK **`after_model_callback`**. On every Gemini reply, that callback runs **before the user sees the text** and delegates to [`assistant_response_guard.py`](assistant_response_guard.py).
+
+**How it works**
+
+1. **`after_model_callback`** receives the `LlmResponse`, walks each `Part` with `text`, and leaves non-text parts unchanged.
+2. **`AssistantResponseGuardService`** (same module) builds a Guardrails **`Guard.for_string`** the first time validation is needed. Validators run on each text segment:
+   - **Emoji rule** — if the segment contains emoji, validation fails and a custom fix **strips** those characters (normalized whitespace).
+   - **Optional vocabulary rule** — if `TRAVEL_HELPER_GUARDRAILS_BANNED_TERMS` is set (comma-separated phrases), any case-insensitive match fails validation and the custom fix **removes** those substrings from the segment.
+3. If any segment changes, the callback returns a **copy** of the `LlmResponse` with updated `content`; otherwise it returns `None` and ADK keeps the original response.
+
+**Turning it on or off**
+
+| Environment variable | Purpose |
+| --- | --- |
+| `TRAVEL_HELPER_GUARDRAILS_ENABLED` | Set to `1`, `true`, `yes`, or `on` to enable. Unset or `0` / `false` / `off` disables validation (callback exits immediately; no Guardrails work). The flag is read **on each model response**, so you can toggle without editing code. |
+| `TRAVEL_HELPER_GUARDRAILS_BANNED_TERMS` | Optional comma-separated list of phrases to detect and strip when Guardrails is enabled. |
+
+Install the dependency from the repo root: `guardrails-ai` is listed in [`requirements.txt`](../requirements.txt). If the enable flag is set but the package is not installed, a warning is logged and text is left unchanged.
+
+**OpenTelemetry**
+
+Note: Guardrails may try to export OpenTelemetry traces; in restricted networks you can see exporter warnings. Setting `OTEL_SDK_DISABLED=true` in the environment disables OTEL for the whole process if that becomes noisy.
+
+**Automated evaluation**
+
+Pytest cases and JSON fixtures for this guard live under [`eval/`](./eval).
+
