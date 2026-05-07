@@ -39,6 +39,15 @@ Go through [Travel Helper Agent - Deploy Agent](./docs/deploy_agent.md) to deplo
 
 Let's now see how to evaluate agents and make sure they behave as you expect in [Travel Helper Agent - Evaluation](./docs/evaluate_agents.md).
 
+## Optional RAG (Vector Search 2.0)
+
+You can replace the internet-based `google_search_agent` with a document-backed RAG agent (`rag_search_agent`) powered by **Vertex AI Vector Search 2.0**.
+
+- Enable with `TRAVEL_HELPER_USE_RAG=1`
+- Configure a collection and ingest docs from GCS
+
+See: [`docs/rag_vector_search2.md`](./docs/rag_vector_search2.md)
+
 ## Filesystem Assistant Agent with Model Context Protocol
 
 If you're running the agent locally, you might want to save the travel information in a text file. 

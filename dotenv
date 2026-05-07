@@ -14,3 +14,9 @@ GOOGLE_API_KEY=
 # Travel helper — assistant response guard (Guardrails). Off unless set to 1/true/yes/on.
 # TRAVEL_HELPER_GUARDRAILS_ENABLED=1
 # TRAVEL_HELPER_GUARDRAILS_BANNED_TERMS=phrase1,phrase2
+
+# Travel helper — RAG via Vertex AI Vector Search 2.0 (requires ADC and Vertex project/region).
+# TRAVEL_HELPER_USE_RAG=1
+# TRAVEL_HELPER_RAG_COLLECTION_ID=travel-helper-docs
+# TRAVEL_HELPER_RAG_GCS_URI=gs://your-bucket/path-prefix
+# TRAVEL_HELPER_RAG_EMBEDDING_FIELD=content_embedding

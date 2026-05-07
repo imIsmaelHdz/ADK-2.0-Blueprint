@@ -4,3 +4,6 @@ uvicorn
 # Optional: output validation for travel_helper (TRAVEL_HELPER_GUARDRAILS_ENABLED=1)
 guardrails-ai>=0.10.0,<0.11
 pytest>=8.0
+# Optional: RAG retrieval/indexing via Vertex AI Vector Search 2.0
+google-cloud-vectorsearch>=0.10.0
+google-cloud-storage>=2.17.0

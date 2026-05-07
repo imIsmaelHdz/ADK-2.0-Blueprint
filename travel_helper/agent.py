@@ -1,12 +1,24 @@
 from google.adk.agents import Agent
 from google.adk.tools.agent_tool import AgentTool
 
+import os
+
 from travel_helper.assistant_response_guard import travel_helper_after_model_callback
 from travel_helper.sub_agents.currency.agent import root_agent as currency_agent
 from travel_helper.sub_agents.google_search.agent import root_agent as google_search_agent
 from travel_helper.sub_agents.greeter.agent import root_agent as greeter_agent
+from travel_helper.sub_agents.rag_search.agent import root_agent as rag_search_agent
 from travel_helper.sub_agents.weather.agent import root_agent as weather_agent
 from travel_helper.sub_agents.filesystem_assistant.agent import root_agent as filesystem_assistant_agent
+
+
+def _use_rag() -> bool:
+    return os.environ.get("TRAVEL_HELPER_USE_RAG", "").strip().lower() in (
+        "1",
+        "true",
+        "yes",
+        "on",
+    )
 
 instruction_prompt = """
     You're an agent to provide essential pre-departure information for a traveler.
@@ -15,7 +27,12 @@ instruction_prompt = """
     - Always start the chat by explaining the traveler how you can help using the `greeter_agent`.  
     - Once you have user's input, tell the user that you're gathering information and go ahead gathering information 
       with the tools without asking for more confirmations.
-    - Gather entry requirements, airport to city center, and top tourist attractions with `google_search_agent`.
+    - HONEST RAG MODE: Do not use general knowledge for research sections. For sections that require facts, you must rely on tool results.
+    - ENTRY REQUIREMENTS, AIRPORT TO CITY CENTER, TOURIST ATTRACTIONS:
+      - If `TRAVEL_HELPER_USE_RAG` is enabled, call `rag_search_agent` for each of these sections.
+      - If `rag_search_agent` returns NOT_FOUND, write: "I don't have that information in the current document set."
+      - Do not add extra facts beyond what `rag_search_agent` returned.
+    - If `TRAVEL_HELPER_USE_RAG` is NOT enabled, you may use `google_search_agent` for these sections.
     - Gather currency information with `currency_agent`.
     - Gather weather information with `weather_agent`.
     - Make sure you follow the response format below. Don't skip any section.
@@ -70,7 +87,7 @@ root_agent = Agent(
     # instruction=instruction_prompt + instruction_prompt_for_filesystem + response_format,
     tools=[
         AgentTool(agent=greeter_agent),
-        AgentTool(agent=google_search_agent),
+        AgentTool(agent=rag_search_agent if _use_rag() else google_search_agent),
         AgentTool(agent=weather_agent),
         AgentTool(agent=currency_agent),
         # AgentTool(agent=filesystem_assistant_agent)
