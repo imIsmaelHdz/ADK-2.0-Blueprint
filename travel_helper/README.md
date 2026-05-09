@@ -12,6 +12,28 @@ and provides essential pre-departure information you need for your trip.
 > [!CAUTION]  
 > Before you start, make sure to follow the [setup](../setup.md) page.
 
+## Web chat UI (prototype)
+
+You can talk to the same **Travel Helper** root agent from a modern browser UI (sidebar threads, streaming replies, dark theme) instead of only the ADK CLI or `adk web`.
+
+![ADK Chat UI prototype: dark theme, sidebar chats, and streaming travel assistant](./docs/images/chat-ui-preview.png)
+
+**What it is**
+
+- A **React + TypeScript** app (Vite) in the repo’s [`chatbot-ui`](../chatbot-ui) folder, styled with **Tailwind CSS** and **Framer Motion** for layout and message animations.
+- The browser calls the **FastAPI** gateway in [`travel_helper_api`](../travel_helper_api) at `POST /v1/chat/stream`, which runs this package’s `root_agent` and streams model output as **Server-Sent Events (SSE)**.
+- **Vite** proxies `/v1` and `/health` to the API in local development so you avoid CORS; see `chatbot-ui/vite.config.ts`.
+
+**Run locally (summary)**
+
+1. Start the API (from the repo root), e.g. `uvicorn travel_helper_api.main:app --reload --port 8011` (use the same port as the proxy in `chatbot-ui/vite.config.ts`).
+2. In `chatbot-ui/`, run `npm install` and `npm run dev`, then open the URL Vite prints (e.g. `http://localhost:5173`).
+
+**UX notes**
+
+- High-contrast dark UI, keyboard-first input (Enter to send, Shift+Enter for a newline), and placeholders aligned with this agent (visas, weather, currency, airport transfer).
+- “Local prototype” in the header indicates this stack is for development; production would add auth, error boundaries, and deployment configuration.
+
 ## Build sub-agents
 
 Travel Helper Agent will rely on sub-agents to help. 

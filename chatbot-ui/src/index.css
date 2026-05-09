@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+    Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+  background:
+    radial-gradient(1200px 800px at 15% 10%, rgba(59, 130, 246, 0.22), transparent 55%),
+    radial-gradient(1200px 800px at 85% 15%, rgba(236, 72, 153, 0.18), transparent 55%),
+    radial-gradient(1100px 900px at 50% 90%, rgba(168, 85, 247, 0.18), transparent 55%),
+    #070914;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+::selection {
+  background: rgba(168, 85, 247, 0.35);
+}
+
+/* Smooth scrolling inside the message list */
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
