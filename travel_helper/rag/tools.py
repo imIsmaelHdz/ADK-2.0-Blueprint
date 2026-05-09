@@ -6,6 +6,7 @@ from typing import Any
 from travel_helper.rag.config import RagConfig
 from travel_helper.rag.vector_search_client import (
     build_clients,
+    execute_batch_search_data_objects,
     parse_search_response,
     semantic_and_text_search_request,
 )
@@ -52,6 +53,10 @@ def rag_search_documents(query: str, filter: str = "", top_k: int = 8) -> list[d
         output_fields=output_fields,
     )
 
-    response = clients.search.batch_search_data_objects(request=request)
+    response = execute_batch_search_data_objects(
+        clients.search,
+        request,
+        timeout_sec=cfg.timeouts.search_sec,
+    )
     return parse_search_response(response)
 

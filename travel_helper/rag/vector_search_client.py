@@ -5,7 +5,47 @@ from typing import Any, Iterable
 
 import json
 
+from google.api_core import exceptions as gexc
+from google.api_core import retry as api_retry
+
 from travel_helper.rag.config import RagConfig
+
+_RAG_TRANSIENT_RETRY = api_retry.Retry(
+    predicate=api_retry.if_transient_error,
+    initial=1.0,
+    maximum=45.0,
+    multiplier=2.0,
+    timeout=240.0,
+)
+
+
+def _vectorsearch_runtime_error(operation: str, exc: BaseException) -> RuntimeError:
+    if isinstance(exc, gexc.GoogleAPICallError):
+        code = getattr(exc, "code", None)
+        return RuntimeError(f"Vector Search {operation} failed (code={code}): {exc}")
+    return RuntimeError(f"Vector Search {operation} failed: {exc}")
+
+
+def execute_batch_search_data_objects(client: Any, request: Any, *, timeout_sec: float) -> Any:
+    try:
+        return client.batch_search_data_objects(
+            request=request,
+            timeout=timeout_sec,
+            retry=_RAG_TRANSIENT_RETRY,
+        )
+    except gexc.GoogleAPICallError as e:
+        raise _vectorsearch_runtime_error("batch_search_data_objects", e) from e
+
+
+def execute_batch_create_data_objects(client: Any, request: Any, *, timeout_sec: float) -> Any:
+    try:
+        return client.batch_create_data_objects(
+            request=request,
+            timeout=timeout_sec,
+            retry=_RAG_TRANSIENT_RETRY,
+        )
+    except gexc.GoogleAPICallError as e:
+        raise _vectorsearch_runtime_error("batch_create_data_objects", e) from e
 
 
 def _import_vectorsearch():

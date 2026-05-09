@@ -34,8 +34,18 @@ def chunk_text(
         part = normalized[start : start + chunk_size].strip()
         if not part:
             break
-        digest = hashlib.sha1(f"{source_uri}:{idx}".encode("utf-8")).hexdigest()[:16]
-        chunks.append(Chunk(chunk_id=digest, text=part))
+        h = hashlib.sha256()
+        h.update(source_uri.encode("utf-8"))
+        h.update(b"\xff")
+        h.update(str(idx).encode("ascii"))
+        h.update(b"\xff")
+        h.update(str(chunk_size).encode("ascii"))
+        h.update(b"\xff")
+        h.update(str(chunk_overlap).encode("ascii"))
+        h.update(b"\xff")
+        h.update(part.encode("utf-8"))
+        chunk_id = h.hexdigest()[:32]
+        chunks.append(Chunk(chunk_id=chunk_id, text=part))
         idx += 1
         start += step
 

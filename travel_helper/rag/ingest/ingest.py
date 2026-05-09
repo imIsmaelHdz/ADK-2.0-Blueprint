@@ -5,6 +5,10 @@ from dataclasses import dataclass
 from travel_helper.rag.config import RagConfig
 from travel_helper.rag.ingest.chunker import chunk_text
 from travel_helper.rag.ingest.gcs_loader import iter_gcs_documents
+from travel_helper.rag.vector_search_client import (
+    build_clients,
+    execute_batch_create_data_objects,
+)
 
 
 @dataclass(frozen=True)
@@ -24,7 +28,7 @@ def ingest_from_gcs(cfg: RagConfig, *, max_files: int | None = None) -> IngestSt
     if not cfg.gcs_uri:
         raise RuntimeError("Missing TRAVEL_HELPER_RAG_GCS_URI for ingestion.")
 
-    data_client = vectorsearch.DataObjectServiceClient()
+    data_client = build_clients().data
 
     docs = 0
     chunks_total = 0
@@ -41,10 +45,19 @@ def ingest_from_gcs(cfg: RagConfig, *, max_files: int | None = None) -> IngestSt
             parent=cfg.collection_parent,
             requests=batch,
         )
-        data_client.batch_create_data_objects(request=req)
+        execute_batch_create_data_objects(
+            data_client,
+            req,
+            timeout_sec=cfg.timeouts.batch_create_sec,
+        )
         batch = []
 
-    for doc in iter_gcs_documents(cfg.gcs_uri, max_files=max_files):
+    for doc in iter_gcs_documents(
+        cfg.gcs_uri,
+        limits=cfg.ingest,
+        max_files=max_files,
+        download_timeout_sec=cfg.timeouts.gcs_download_sec,
+    ):
         docs += 1
         chunks = chunk_text(source_uri=doc.source_uri, text=doc.text)
         for ch in chunks:

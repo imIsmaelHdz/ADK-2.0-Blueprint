@@ -7,7 +7,6 @@ from travel_helper.assistant_response_guard import travel_helper_after_model_cal
 from travel_helper.sub_agents.currency.agent import root_agent as currency_agent
 from travel_helper.sub_agents.google_search.agent import root_agent as google_search_agent
 from travel_helper.sub_agents.greeter.agent import root_agent as greeter_agent
-from travel_helper.sub_agents.rag_search.agent import root_agent as rag_search_agent
 from travel_helper.sub_agents.weather.agent import root_agent as weather_agent
 from travel_helper.sub_agents.filesystem_assistant.agent import root_agent as filesystem_assistant_agent
 
@@ -19,6 +18,24 @@ def _use_rag() -> bool:
         "yes",
         "on",
     )
+
+
+def _research_agent():
+    """Google search by default; RAG sub-agent only if enabled (lazy import for optional deps)."""
+    if not _use_rag():
+        return google_search_agent
+    try:
+        from travel_helper.sub_agents.rag_search.agent import (
+            root_agent as rag_search_agent,
+        )
+    except ImportError as e:
+        raise RuntimeError(
+            "TRAVEL_HELPER_USE_RAG is enabled but RAG optional dependencies failed to import. "
+            "Install packages such as google-cloud-vectorsearch (and any protobuf extras required "
+            "by your environment), or disable TRAVEL_HELPER_USE_RAG. "
+            f"Import error: {e}"
+        ) from e
+    return rag_search_agent
 
 instruction_prompt = """
     You're an agent to provide essential pre-departure information for a traveler.
@@ -87,7 +104,7 @@ root_agent = Agent(
     # instruction=instruction_prompt + instruction_prompt_for_filesystem + response_format,
     tools=[
         AgentTool(agent=greeter_agent),
-        AgentTool(agent=rag_search_agent if _use_rag() else google_search_agent),
+        AgentTool(agent=_research_agent()),
         AgentTool(agent=weather_agent),
         AgentTool(agent=currency_agent),
         # AgentTool(agent=filesystem_assistant_agent)
