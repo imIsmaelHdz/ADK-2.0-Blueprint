@@ -1,0 +1,12 @@
+.gcloudignore
+.git
+.venv/
+**/__pycache__/
+**/*.pyc
+chatbot-ui/node_modules/
+.env
+.env.*
+credentials*.json
+secrets*.json
+*.pem
+*.key
