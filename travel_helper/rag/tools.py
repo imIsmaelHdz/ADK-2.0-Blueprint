@@ -28,10 +28,14 @@ def rag_search_documents(query: str, filter: str = "", top_k: int = 8) -> list[d
         top_k: Number of results to return.
 
     Returns:
-        List of results containing title, source_uri, snippet, score, metadata.
+        List of results, or empty list if collection is not configured (triggers fallback).
     """
     cfg = RagConfig.from_env()
-    cfg.validate_for_query()
+    try:
+        cfg.validate_for_query()
+    except RuntimeError:
+        # Collection not configured yet — return empty so the orchestrator falls back to Google Search.
+        return []
 
     filter_dict = _parse_filter_json(filter)
     clients = build_clients()

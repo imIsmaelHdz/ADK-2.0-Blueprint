@@ -1,114 +1,72 @@
-from google.adk.agents import Agent
-from google.adk.tools.agent_tool import AgentTool
-
 import os
 
+from google.adk.agents import Agent
+from google.adk.planners import BuiltInPlanner
+from google.adk.tools.agent_tool import AgentTool
+from google.genai import types as genai_types
+
 from travel_helper.assistant_response_guard import travel_helper_after_model_callback
-from travel_helper.sub_agents.currency.agent import root_agent as currency_agent
-from travel_helper.sub_agents.google_search.agent import root_agent as google_search_agent
-from travel_helper.sub_agents.greeter.agent import root_agent as greeter_agent
-from travel_helper.sub_agents.weather.agent import root_agent as weather_agent
-from travel_helper.sub_agents.filesystem_assistant.agent import root_agent as filesystem_assistant_agent
+from travel_helper.agents.google_search import root_agent as google_search_agent
+from travel_helper.tools.currency import convert_currency
+from travel_helper.tools.weather import weather_for_city
 
 
-def _use_rag() -> bool:
-    return os.environ.get("TRAVEL_HELPER_USE_RAG", "").strip().lower() in (
-        "1",
-        "true",
-        "yes",
-        "on",
-    )
-
-
-def _research_agent():
-    """Google search by default; RAG sub-agent only if enabled (lazy import for optional deps)."""
-    if not _use_rag():
-        return google_search_agent
+def _rag_tool():
+    if os.environ.get("TRAVEL_HELPER_USE_RAG", "").strip().lower() not in ("1", "true", "yes", "on"):
+        return None
     try:
-        from travel_helper.sub_agents.rag_search.agent import (
-            root_agent as rag_search_agent,
-        )
-    except ImportError as e:
-        raise RuntimeError(
-            "TRAVEL_HELPER_USE_RAG is enabled but RAG optional dependencies failed to import. "
-            "Install packages such as google-cloud-vectorsearch (and any protobuf extras required "
-            "by your environment), or disable TRAVEL_HELPER_USE_RAG. "
-            f"Import error: {e}"
-        ) from e
-    return rag_search_agent
+        from travel_helper.rag.tools import rag_search_documents
+        return rag_search_documents
+    except ImportError:
+        return None
+
 
 instruction_prompt = """
-    You're an agent to provide essential pre-departure information for a traveler.
+    You are a travel helper agent that provides essential pre-departure information.
 
-    Rules:
-    - Always start the chat by explaining the traveler how you can help using the `greeter_agent`.  
-    - Once you have user's input, tell the user that you're gathering information and go ahead gathering information 
-      with the tools without asking for more confirmations.
-    - HONEST RAG MODE: Do not use general knowledge for research sections. For sections that require facts, you must rely on tool results.
-    - ENTRY REQUIREMENTS, AIRPORT TO CITY CENTER, TOURIST ATTRACTIONS:
-      - If `TRAVEL_HELPER_USE_RAG` is enabled, call `rag_search_agent` for each of these sections.
-      - If `rag_search_agent` returns NOT_FOUND, write: "I don't have that information in the current document set."
-      - Do not add extra facts beyond what `rag_search_agent` returned.
-    - If `TRAVEL_HELPER_USE_RAG` is NOT enabled, you may use `google_search_agent` for these sections.
-    - Gather currency information with `currency_agent`.
-    - Gather weather information with `weather_agent`.
-    - Make sure you follow the response format below. Don't skip any section.
- """
+    ## Extracting trip details:
+    You need: nationality/passport country, origin city, destination city.
+    - Infer nationality from origin country when obvious (e.g. "I'm from Mexico" → Mexican passport).
+    - Only ask for what you genuinely cannot infer. If origin city and destination city are clear,
+      assume nationality matches the origin country and proceed.
+    - If truly ambiguous (e.g. expat, dual citizen), ask in one short friendly sentence.
 
-# If running locally, you can also have file system access to save the information
-instruction_prompt_for_filesystem = """
-    - Once all the information is generated, ask the user if they want to save the pre-departure information to a file.
-    If so, use `filesystem_assistant_agent` to save it in a file. Make sure to preserve the response format.
+    ## Once you have all three details:
+    Call ALL of the following tools AT THE SAME TIME in a single batch:
+      • weather_for_city(city=<destination>)
+      • convert_currency(from_currency=<origin currency>, to_currency=<destination currency>)
+      • google_search_agent(request="destination: <destination>, nationality: <nationality>")
+
+    Wait for all results, then reply in a warm, conversational tone — like a well-traveled friend
+    giving advice over coffee. Use short paragraphs, not walls of text. Lead with the most
+    important thing (visa), weave in the rest naturally. Use emojis sparingly to break sections.
+
+    Cover in this order, but write it as flowing conversation:
+    1. Visa / entry — the critical bit first
+    2. Money — quick exchange rate callout
+    3. Weather — what to pack, not a data dump
+    4. Getting into the city from the airport
+    5. 5–7 must-see spots (not a numbered list, just a sentence or two per highlight)
+
+    Keep the whole reply under 250 words. End with one encouraging send-off line.
 """
 
-response_format = """
-    Response format:
-    
-    SUMMARY
-    -------
-    You're travelling from city1, country1 to city2,country2 with a country passport.
 
-    ENTRY REQUIREMENTS
-    ------------------
-    Visa required? <Just answer with Yes/No and how many days one can stay>
-    
-    Entry requirements: <explain the entry requirements in more detail>
+def _build_tools():
+    tools = [weather_for_city, convert_currency]
+    rag = _rag_tool()
+    if rag:
+        tools.append(rag)
+    tools.append(AgentTool(agent=google_search_agent))
+    return tools
 
-    CURRENCY
-    -------
-    <Find the currency1 of country1 and currency2 of country2. Calculate and display the currency rate from currency1
-     to currency2. If you don't have the currency info just say: I don't have conversion rate from currency1 to currency2.>
-
-    WEATHER
-    -------
-    <Display the weather in city2 today>
-
-    AIRPORT TO CITY CENTER
-    ----------------------
-    <Explain how to get to the city center with public transportation or taxi>
-
-    TOURIST ATTRACTIONS
-    -------------------
-    <Display top 10 tourist attractions in a plain text list format. One sentence explanation for each attraction>
-
-    ----------------
-    Enjoy your trip!
-"""
 
 root_agent = Agent(
     name="travel_helper_agent",
     model="gemini-2.5-flash",
-    description="Travel helper agent to provide essential pre-departure information for a traveler",
-    instruction=instruction_prompt + response_format,
-    # If running locally, you can also have file system access to save the information
-    # instruction=instruction_prompt + instruction_prompt_for_filesystem + response_format,
-    tools=[
-        AgentTool(agent=greeter_agent),
-        AgentTool(agent=_research_agent()),
-        AgentTool(agent=weather_agent),
-        AgentTool(agent=currency_agent),
-        # AgentTool(agent=filesystem_assistant_agent)
-    ],
+    description="Travel helper agent providing essential pre-departure information",
+    instruction=instruction_prompt,
+    tools=_build_tools(),
     after_model_callback=travel_helper_after_model_callback,
-    # sub_agents=[greeter_agent, google_search_agent, weather_agent, currency_agent]
+    planner=BuiltInPlanner(thinking_config=genai_types.ThinkingConfig(thinking_budget=0)),
 )

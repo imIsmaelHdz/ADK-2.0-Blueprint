@@ -30,20 +30,5 @@ export function createSeedThreads(): ChatThread[] {
         },
       ],
     },
-    {
-      id: 'thread_ideas',
-      title: 'UI ideas',
-      sessionId: 'session_ideas',
-      updatedAt: Date.now() - 1000 * 60 * 60 * 5,
-      messages: [
-        {
-          id: 'i1',
-          role: 'assistant',
-          createdAt: Date.now() - 1000 * 60 * 60 * 5,
-          content:
-            'This UI is a standalone prototype. Next step: connect it to `travel_helper_api` (streaming) and persist threads in localStorage.',
-        },
-      ],
-    },
   ]
 }

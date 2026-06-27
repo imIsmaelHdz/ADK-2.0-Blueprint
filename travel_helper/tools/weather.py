@@ -3,7 +3,6 @@ from typing import Any, Optional
 from urllib.parse import quote_plus
 
 import requests
-from google.adk.agents import Agent
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -106,25 +105,3 @@ def weather_for_city(city: str):
     }
 
 
-instruction_prompt = """
-    You're a weather agent. Prefer calling **`weather_for_city`** with the traveller's destination city name —
-    it returns geocoding + forecast together so you don't mix up coordinates.
-
-    If you must use the lower-level tools, call `location_to_lat_long` then `lat_long_to_weather` using the
-    numeric latitude/longitude from `results[0]`.
-
-    Answer in this format:
-    For the next 7 days, the weather in <city> will be:
-    * Temperature:
-    * Rain:
-    * Wind:
-    * UV index:
-"""
-
-root_agent = Agent(
-    name="weather_agent",
-    model="gemini-2.5-flash",
-    description="Agent to answer questions about weather in a city.",
-    instruction=instruction_prompt,
-    tools=[weather_for_city, location_to_lat_long, lat_long_to_weather],
-)

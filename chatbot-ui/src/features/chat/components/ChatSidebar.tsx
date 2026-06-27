@@ -1,4 +1,4 @@
-import { Bot, Plus, Settings2, Sparkles } from 'lucide-react'
+import { Bot, Plus, Settings2 } from 'lucide-react'
 import { cn } from '@/shared/lib/cn'
 import type { ChatThread } from '../types'
 import { formatTime } from '../utils'
@@ -86,19 +86,6 @@ export function ChatSidebar({
           })}
       </div>
 
-      <div className="mt-4 rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-3">
-        <div className="flex items-start gap-2">
-          <div className="mt-0.5 grid h-8 w-8 place-items-center rounded-xl bg-violet-500/20 ring-1 ring-violet-400/20">
-            <Sparkles className="h-4 w-4 text-violet-200" />
-          </div>
-          <div>
-            <div className="text-xs font-semibold text-white/80">UX notes</div>
-            <div className="mt-1 text-xs leading-relaxed text-white/55">
-              Designed for fast scanning, strong contrast, and keyboard-first controls.
-            </div>
-          </div>
-        </div>
-      </div>
     </aside>
   )
 }
