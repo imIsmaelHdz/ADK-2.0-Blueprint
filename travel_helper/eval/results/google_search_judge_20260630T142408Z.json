@@ -1,0 +1,23 @@
+[
+  {
+    "timestamp": "2026-06-30T14:24:21.026664+00:00",
+    "case_id": "tokyo_american",
+    "destination": "Tokyo",
+    "nationality": "American",
+    "passed": true,
+    "structural": {
+      "missing_sections": [],
+      "attraction_count": 10
+    },
+    "verdict": {
+      "nationality_specific": 5,
+      "entry_completeness": 5,
+      "airport_usefulness": 3,
+      "attractions_quality": 5,
+      "factual_plausibility": 5,
+      "overall": 4,
+      "reasoning": "The output provides excellent nationality-specific entry information and a relevant list of attractions. However, the airport to city center section is missing approximate cost details for the listed transport options."
+    },
+    "output": "ENTRY REQUIREMENTS\nU.S. citizens do not need a visa for short-term visits to Japan, including tourism or business, and can stay for up to 90 days. Your U.S. passport must be valid for the entire duration of your stay. It is recommended to have proof of onward travel and sufficient financial means. You can also complete customs and immigration requirements online via Visit Japan Web to receive a QR code for a smoother process upon arrival.\n\nAIRPORT TO CITY CENTER\nTokyo has two major international airports: Narita International Airport (NRT) and Haneda Airport (HND). From Narita Airport, you can take the Keisei Skyliner to Ueno (approx. 40 minutes) or the Keisei Narita Sky Access to Asakusa (approx. 50 minutes). From Haneda Airport, you can take the Keikyu Line directly to Asakusa (approx. 35 minutes) or to Shinagawa, then transfer to the JR Yamanote Line for Shinjuku (approx. 35 minutes total).\n\nTOURIST ATTRACTIONS\n1. Asakusa — This area offers a taste of traditional Tokyo, with cultural stops, food, and souvenir shopping.\n2. Shinjuku — Home to the world's busiest station, Shinjuku offers numerous restaurants, bars, and shopping arcades.\n3. Shibuya Sky — An observation deck offering panoramic views of Tokyo.\n4. Ginza — A high-end shopping and entertainment district.\n5. Ueno — Known for its museums, zoo, and park.\n6. Odaiba — A futuristic entertainment and shopping district on an artificial island.\n7. Tokyo Tower — An iconic landmark offering observation decks.\n8. Tokyo Skytree — Another prominent broadcast and observation tower with stunning city views.\n9. Imperial Palace — The primary residence of the Emperor of Japan, surrounded by beautiful gardens.\n10. Meiji Jingu Shrine — A peaceful oasis dedicated to Emperor Meiji and Empress Shoken."
+  }
+]

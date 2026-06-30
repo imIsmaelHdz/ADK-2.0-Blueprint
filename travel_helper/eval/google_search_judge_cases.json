@@ -1,0 +1,34 @@
+{
+  "description": "LLM-as-judge cases for travel_helper.agents.google_search. Each case runs the agent for (destination, nationality), then a Gemini judge scores the output 1-5 per rubric dimension. Per-case keys override the defaults. Requires real Vertex AI calls; run with TRAVEL_HELPER_RUN_LLM_EVAL=1.",
+  "defaults": {
+    "min_attractions": 8,
+    "min_overall": 3,
+    "min_nationality_specific": 3,
+    "min_factual_plausibility": 3
+  },
+  "cases": [
+    {
+      "id": "tokyo_american",
+      "destination": "Tokyo",
+      "nationality": "American",
+      "min_overall": 4
+    },
+    {
+      "id": "london_mexican",
+      "destination": "London",
+      "nationality": "Mexican",
+      "min_overall": 4
+    },
+    {
+      "id": "paris_indian",
+      "destination": "Paris",
+      "nationality": "Indian",
+      "min_nationality_specific": 4
+    },
+    {
+      "id": "bangkok_german",
+      "destination": "Bangkok",
+      "nationality": "German"
+    }
+  ]
+}

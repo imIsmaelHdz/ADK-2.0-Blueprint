@@ -1,0 +1,86 @@
+[
+  {
+    "timestamp": "2026-06-30T14:25:04.751106+00:00",
+    "case_id": "tokyo_american",
+    "destination": "Tokyo",
+    "nationality": "American",
+    "passed": true,
+    "structural": {
+      "missing_sections": [],
+      "attraction_count": 10
+    },
+    "verdict": {
+      "nationality_specific": 5,
+      "entry_completeness": 5,
+      "airport_usefulness": 3,
+      "attractions_quality": 5,
+      "factual_plausibility": 5,
+      "overall": 4,
+      "reasoning": "The entry requirements and tourist attractions are excellent and highly relevant. However, the airport transfer section lacks approximate cost information for the transport options, which would greatly enhance its usefulness."
+    },
+    "output": "ENTRY REQUIREMENTS\nU.S. citizens do not need a visa for short-term visits to Japan, including tourism, for up to 90 days. Your passport should be valid for the entire duration of your stay. It is recommended to check with your airline regarding their passport validity policies, as some may require six months of validity beyond your departure date. You may also be asked to show proof of onward travel and sufficient financial means. Using Visit Japan Web to complete customs and immigration forms online can save time upon arrival.\n\nAIRPORT TO CITY CENTER\nTokyo has two major international airports: Narita International Airport (NRT) and Haneda Airport (HND). From Narita Airport, you can take the Keisei Skyliner to Ueno in about 40 minutes, then transfer to the Ginza Line for Asakusa, or take the Keisei Narita Sky Access directly to Asakusa in approximately 50 minutes. From Haneda Airport, the Keikyu Line provides a direct connection to the Toei Asakusa Line, reaching Asakusa in about 35 minutes.\n\nTOURIST ATTRACTIONS\n1. Shibuya Sky — An observation deck offering panoramic views of Tokyo.\n2. Asakusa — Experience traditional Tokyo with its historic charm, food, and souvenir shopping.\n3. Ginza — A district known for upscale shopping, dining, and entertainment.\n4. Shinjuku — A major commercial and administrative center with skyscrapers, department stores, and entertainment options.\n5. Ueno — Home to museums, a zoo, and parks, offering cultural and recreational activities.\n6. Odaiba — A futuristic entertainment hub on an artificial island in Tokyo Bay.\n7. Tokyo Tower — An iconic communication and observation tower.\n8. Tokyo Skytree — A broadcasting and observation tower, the tallest structure in Japan.\n9. Imperial Palace — The primary residence of the Emperor of Japan, surrounded by gardens.\n10. Meiji Jingu Shrine — A Shinto shrine dedicated to Emperor Meiji and Empress Shoken."
+  },
+  {
+    "timestamp": "2026-06-30T14:25:17.339437+00:00",
+    "case_id": "london_mexican",
+    "destination": "London",
+    "nationality": "Mexican",
+    "passed": false,
+    "structural": {
+      "missing_sections": [],
+      "attraction_count": 10
+    },
+    "verdict": {
+      "nationality_specific": 5,
+      "entry_completeness": 4,
+      "airport_usefulness": 1,
+      "attractions_quality": 5,
+      "factual_plausibility": 5,
+      "overall": 3,
+      "reasoning": "The entry requirements are excellent and nationality-specific, and the attractions list is comprehensive and accurate. However, the airport transfer information is severely lacking, missing crucial details like cost and travel time, which significantly impacts its overall usefulness for pre-trip planning."
+    },
+    "output": "ENTRY REQUIREMENTS\nMexican citizens do not need a visa for short-term stays in the UK. However, starting in 2026, all Mexicans traveling to the UK will need an Electronic Travel Authorisation (ETA), which is a mandatory digital entry permit. The ETA allows for stays of up to six months and can be applied for online for a fee of £16. Your passport should be valid for at least 6 months.\n\nAIRPORT TO CITY CENTER\nThe Heathrow Express offers a swift transfer directly into Central London.\n\nTOURIST ATTRACTIONS\n1. Tower of London — Explore this historic castle with a rich and often grim past.\n2. British Museum — Discover a vast collection of world art and artifacts.\n3. Buckingham Palace — Witness the official residence and administrative headquarters of the monarch of the United Kingdom.\n4. The London Eye — See London from a unique perspective on this iconic observation wheel.\n5. Houses of Parliament — Admire the stunning Gothic architecture and famous clock tower, Big Ben.\n6. St Paul's Cathedral — Visit this magnificent cathedral, an architectural masterpiece.\n7. Westminster Abbey — Explore the traditional place of coronation and burial site for British monarchs.\n8. Trafalgar Square — Experience a vibrant public space with Nelson's Column and the National Gallery.\n9. National Gallery — Immerse yourself in a collection of Western European paintings from the 13th to the 19th centuries.\n10. Borough Market — Indulge in a variety of foods and discover artisanal products at one of London's oldest and largest markets."
+  },
+  {
+    "timestamp": "2026-06-30T14:25:53.799109+00:00",
+    "case_id": "paris_indian",
+    "destination": "Paris",
+    "nationality": "Indian",
+    "passed": true,
+    "structural": {
+      "missing_sections": [],
+      "attraction_count": 10
+    },
+    "verdict": {
+      "nationality_specific": 5,
+      "entry_completeness": 5,
+      "airport_usefulness": 3,
+      "attractions_quality": 5,
+      "factual_plausibility": 5,
+      "overall": 4,
+      "reasoning": "The entry requirements and tourist attractions sections are excellent and comprehensive. However, the airport transfer section lacks crucial details such as approximate cost and travel time, which significantly impacts its usefulness."
+    },
+    "output": "ENTRY REQUIREMENTS\nIndian citizens require a short-stay Schengen visa (Category C) to enter France for tourism, allowing a stay of up to 90 days. The fee for this visa is €90 plus a VFS service fee, and applications should be submitted 15-30 days in advance. It's important to note that the Schengen visa is not an e-visa, and appointments and biometrics are required. While France has eliminated the Airport Transit Visa (ATV) for Indian nationals as of April 10, 2026, meaning you don't need a transit visa for airside layovers at French airports like Paris CDG, a regular Schengen visa is still required for entry into France or if your itinerary involves changing terminals that require passing through immigration.\n\nAIRPORT TO CITY CENTER\nFrom Paris airports, you can reach the city center using the RER rail network. While a taxi is an option, public transport via the RER train is available. Tickets can be purchased from vending machines at the airport. In case of RER strikes, which can be common, you would still purchase a ticket from the vending machines and then take a bus from the airport to a station where you can board a train to central Paris.\n\nTOURIST ATTRACTIONS\n1. Eiffel Tower — This iconic landmark offers breathtaking views of Paris, and booking official summit tickets with a lift in advance is recommended.\n2. Louvre Museum — Home to world-famous art, including the Mona Lisa, it can be very crowded, so it's advisable to purchase tickets in advance.\n3. Arc de Triomphe — A monumental arch that stands at the western end of the Champs-Élysées.\n4. Seine River Cruise — A relaxing way to see many of Paris's famous landmarks from the water.\n5. Montmartre — Explore the charming streets and artistic history of this famous Parisian neighborhood.\n6. Disneyland Paris — A popular theme park offering a variety of rides and entertainment.\n7. Cathédrale Notre-Dame de Paris — A historic Catholic cathedral known for its Gothic architecture (check for restoration updates).\n8. Champs-Élysées — A famous avenue known for its theaters, cafes, and luxury shops.\n9. Musée d'Orsay — Housed in a former railway station, it features a vast collection of Impressionist and Post-Impressionist masterpieces.\n10. Palace of Versailles — A grand royal château located just outside of Paris, famous for its opulent architecture and extensive gardens."
+  },
+  {
+    "timestamp": "2026-06-30T14:26:05.061818+00:00",
+    "case_id": "bangkok_german",
+    "destination": "Bangkok",
+    "nationality": "German",
+    "passed": true,
+    "structural": {
+      "missing_sections": [],
+      "attraction_count": 10
+    },
+    "verdict": {
+      "nationality_specific": 5,
+      "entry_completeness": 5,
+      "airport_usefulness": 1,
+      "attractions_quality": 5,
+      "factual_plausibility": 5,
+      "overall": 3,
+      "reasoning": "The agent provided excellent and complete information for entry requirements and tourist attractions. However, it completely failed to provide any details for the 'Airport to City Center' section, significantly reducing its overall usefulness."
+    },
+    "output": "ENTRY REQUIREMENTS\nGerman citizens can enter Thailand visa-free for up to 60 days for tourism. This visa exemption can be extended for an additional 30 days for a fee of approximately 1,900 THB (around $57-$60). A valid passport with at least six months of validity from the entry date and two blank pages is required. It is recommended to have proof of onward travel and sufficient funds (10,000 THB per person or 20,000 THB per family) although these are rarely checked. All travelers must complete a Thailand Digital Arrival Card (TDAC) before arrival.\n\nAIRPORT TO CITY CENTER\nThe search results do not contain information on transport options, approximate costs, or travel times from Bangkok's airports to the city center.\n\nTOURIST ATTRACTIONS\n1. Grand Palace — This historical complex is a must-see in Bangkok, open daily from 8:30 AM to 3:30 PM.\n2. Wat Arun (Temple of Dawn) — A beautiful temple located on the Chao Phraya River.\n3. Wat Pho (Temple of the Reclining Buddha) — Home to a giant reclining Buddha statue.\n4. Chatuchak Weekend Market — A massive market offering a wide array of goods, open on weekends.\n5. Damnoen Saduak Floating Market — Experience a traditional Thai floating market, located outside the city.\n6. Jim Thompson House — A museum showcasing traditional Thai architecture and art.\n7. Erawan Shrine — A popular Hindu shrine in the heart of Bangkok.\n8. Lumpini Park — A large public park offering a green escape from the city.\n9. Khao San Road — A vibrant street known for its nightlife, street food, and budget accommodations.\n10. Chao Phraya River — Take a boat trip to see many of Bangkok's riverside attractions."
+  }
+]
